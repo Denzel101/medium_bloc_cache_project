@@ -8,7 +8,7 @@ Future<void> initialiseLocator() async {
   //key
   const postsKey = 'posts';
   //box
-  final postsBox = await Hive.openBox<PostsResponseModel?>(postsKey);
+  final postsBox = await Hive.openBox<PostsModel?>(postsKey);
 
   locator.registerSingleton(
     PostsRepository(postsBox: postsBox),

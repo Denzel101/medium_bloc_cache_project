@@ -1,1 +1,1 @@
-export 'posts_response_model.dart';
+export 'posts_model.dart';

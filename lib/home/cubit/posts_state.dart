@@ -10,7 +10,7 @@ class PostsLoading extends PostsState {}
 class PostsLoaded extends PostsState {
   PostsLoaded({required this.response});
 
-  final List<PostsResponseModel?> response;
+  final List<PostsModel?> response;
 }
 
 class PostsError extends PostsState {

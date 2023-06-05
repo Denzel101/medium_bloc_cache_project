@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'posts_response_model.dart';
+part of 'posts_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PostsResponseModelAdapter extends TypeAdapter<PostsResponseModel> {
+class PostsModelAdapter extends TypeAdapter<PostsModel> {
   @override
   final int typeId = 0;
 
   @override
-  PostsResponseModel read(BinaryReader reader) {
+  PostsModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PostsResponseModel(
+    return PostsModel(
       userId: fields[0] as int?,
       id: fields[1] as int?,
       title: fields[2] as String?,
@@ -25,7 +25,7 @@ class PostsResponseModelAdapter extends TypeAdapter<PostsResponseModel> {
   }
 
   @override
-  void write(BinaryWriter writer, PostsResponseModel obj) {
+  void write(BinaryWriter writer, PostsModel obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -44,7 +44,7 @@ class PostsResponseModelAdapter extends TypeAdapter<PostsResponseModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PostsResponseModelAdapter &&
+      other is PostsModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

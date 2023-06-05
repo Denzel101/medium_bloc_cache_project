@@ -3,10 +3,10 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-part 'posts_response_model.g.dart';
+part 'posts_model.g.dart';
 
 @HiveType(typeId: 0)
-class PostsResponseModel {
+class PostsModel {
   @HiveField(0)
   final int? userId;
   @HiveField(1)
@@ -16,7 +16,7 @@ class PostsResponseModel {
   @HiveField(3)
   final String? body;
 
-  PostsResponseModel({
+  PostsModel({
     this.userId,
     this.id,
     this.title,
@@ -32,8 +32,8 @@ class PostsResponseModel {
     };
   }
 
-  factory PostsResponseModel.fromMap(Map<String, dynamic> map) {
-    return PostsResponseModel(
+  factory PostsModel.fromMap(Map<String, dynamic> map) {
+    return PostsModel(
       userId: map['userId'] != null ? map['userId'] as int : null,
       id: map['id'] != null ? map['id'] as int : null,
       title: map['title'] != null ? map['title'] as String : null,
@@ -43,6 +43,6 @@ class PostsResponseModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PostsResponseModel.fromJson(String source) =>
-      PostsResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PostsModel.fromJson(String source) =>
+      PostsModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

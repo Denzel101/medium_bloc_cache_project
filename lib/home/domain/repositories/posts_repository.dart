@@ -5,21 +5,20 @@ import 'package:http/http.dart' as http;
 import 'package:medium_bloc_cache_project/home/home.dart';
 
 class PostsRepository {
-  PostsRepository({required Box<PostsResponseModel?> postsBox})
-      : _postsBox = postsBox;
+  PostsRepository({required Box<PostsModel?> postsBox}) : _postsBox = postsBox;
 
   final _client = http.Client();
 
-  final Box<PostsResponseModel?> _postsBox;
+  final Box<PostsModel?> _postsBox;
 
-  Future<List<PostsResponseModel>> getPosts() async {
+  Future<List<PostsModel>> getPosts() async {
     final response = await _client.get(
       Uri.parse('https://jsonplaceholder.typicode.com/posts'),
     );
 
     final json = jsonDecode(response.body) as List<dynamic>;
     final posts = json.map(
-      (e) => PostsResponseModel.fromMap(
+      (e) => PostsModel.fromMap(
         Map<String, dynamic>.from(e as Map<String, dynamic>),
       ),
     );
@@ -32,14 +31,14 @@ class PostsRepository {
   }
 
   Future<void> savePostsLocally({
-    required List<PostsResponseModel> posts,
+    required List<PostsModel> posts,
   }) async {
     for (final post in posts) {
       await _postsBox.put(post.id, post);
     }
   }
 
-  Future<List<PostsResponseModel?>> fetchAllLocalPosts() async {
+  Future<List<PostsModel?>> fetchAllLocalPosts() async {
     final localPosts = _postsBox.values.toList();
     return localPosts;
   }

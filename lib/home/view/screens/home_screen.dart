@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future<void> getLocalPosts() async {
+  Future<void> getPosts() async {
     final postsCubit = context.read<PostsCubit>();
     await postsCubit.getPosts();
   }
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getLocalPosts();
+    getPosts();
     super.initState();
   }
 
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             return RefreshIndicator(
-              onRefresh: getLocalPosts,
+              onRefresh: getPosts,
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: response.length,
