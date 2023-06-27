@@ -35,76 +35,70 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<PostsCubit>().state;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
         centerTitle: true,
       ),
-      body: BlocBuilder<PostsCubit, PostsState>(
-        builder: (context, state) {
-          if (state is PostsError) {
-            return Center(child: Text(state.error));
-          } else if (state is PostsLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is PostsLoaded) {
-            final response = state.response;
-            if (response.isEmpty) {
-              return const Center(
+      body: switch (state) {
+        PostsInitial() => const SizedBox.shrink(),
+        PostsError() => Center(child: Text(state.error)),
+        PostsLoading() => const Center(child: CircularProgressIndicator()),
+        PostsLoaded(response: final response) => response.isEmpty
+            ? const Center(
                 child: Text('No posts to display yet 😊'),
-              );
-            }
-            return RefreshIndicator(
-              onRefresh: getPosts,
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: response.length,
-                padding: const EdgeInsets.only(top: 20),
-                itemBuilder: (context, index) {
-                  final post = response[index];
-                  return Container(
-                    width: double.infinity,
-                    height: 200,
-                    margin:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: getRandomColor(),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          'Id: ${post?.id}',
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          'Title: ${post?.title}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontStyle: FontStyle.italic,
+              )
+            : RefreshIndicator(
+                onRefresh: getPosts,
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: response.length,
+                  padding: const EdgeInsets.only(top: 20),
+                  itemBuilder: (context, index) {
+                    final post = response[index];
+                    return Container(
+                      width: double.infinity,
+                      height: 200,
+                      margin: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        bottom: 20,
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: getRandomColor(),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            'Id: ${post?.id}',
+                            style: const TextStyle(color: Colors.white),
                           ),
-                        ),
-                        Text(
-                          'Body: ${post?.body}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            'Title: ${post?.title}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          Text(
+                            'Body: ${post?.body}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            );
-          }
-          return const Center(
-            child: Text('Something Went Wrong. Try Again Later'),
-          );
-        },
-      ),
+      },
     );
   }
 }
