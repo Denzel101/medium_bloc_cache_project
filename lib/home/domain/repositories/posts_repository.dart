@@ -16,16 +16,16 @@ class PostsRepository {
       Uri.parse('https://jsonplaceholder.typicode.com/posts'),
     );
 
+    if (response.statusCode != 200) {
+      throw Exception('Something went wrong. Try again later');
+    }
+
     final json = jsonDecode(response.body) as List<dynamic>;
     final posts = json.map(
       (e) => PostsModel.fromMap(
         Map<String, dynamic>.from(e as Map<String, dynamic>),
       ),
     );
-
-    if (response.statusCode != 200) {
-      throw Exception('Something went wrong. Try again later');
-    }
 
     return posts.toList();
   }
